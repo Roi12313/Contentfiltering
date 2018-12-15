@@ -10,6 +10,7 @@ import imutils
 import pickle
 import time
 import cv2
+import pickle
 
 # construct the argument parser and parse the arguments
 ap = argparse.ArgumentParser()
@@ -38,7 +39,7 @@ time.sleep(2.0)
 while True:
 	# grab the frame from the threaded video stream
 	frame = vs.read()
-	
+
 	# convert the input frame from BGR to RGB then resize it to have
 	# a width of 750px (to speedup processing)
 	rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
@@ -79,9 +80,11 @@ while True:
 			# of votes (note: in the event of an unlikely tie Python
 			# will select first entry in the dictionary)
 			name = max(counts, key=counts.get)
-		
+
 		# update the list of names
 		names.append(name)
+	pickle.dump(names, open("result.pkl", "wb"))
+
 
 	# loop over the recognized faces
 	for ((top, right, bottom, left), name) in zip(boxes, names):
